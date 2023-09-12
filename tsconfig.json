@@ -28,7 +28,10 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/api/openai/route.js",
-    "app/page.tsx"
+    "app/page.jsx",
+    "app/layout.jsx",
+    "components/Chat.jsx",
+    "components/Header.jsx"
   ],
   "exclude": ["node_modules"]
 }

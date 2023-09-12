@@ -38,7 +38,7 @@ export default function Home() {
             <div className="flex gap-6 py-3 items-center justify-between">
               <div>
                 Vous avez échangé avec{" "}
-                <span className="font-bold">Magalie B.</span> mais d'autres
+                <span className="font-bold">Magalie B.</span> mais d autres
                 filles vous attendent !
               </div>
               <div className="flex">
