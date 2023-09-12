@@ -5,14 +5,15 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useEffect, useRef, useState } from "react";
 import { Camera, Image, SendHorizonal } from "lucide-react";
 import { Button } from "./ui/button";
+import { ChatGPTMessage } from "@/lib/openai";
 import { DialogTrigger } from "./ui/dialog";
 
 export default function Chat() {
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [input, setInput] = useState<string>("");
+  const [messages, setMessages] = useState<ChatGPTMessage[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const ref = (useRef < null) | (HTMLDivElement > null);
+  const ref = useRef<null | HTMLDivElement>(null);
   useEffect(() => {
     if (messages.length) {
       ref.current?.scrollIntoView({
@@ -22,7 +23,7 @@ export default function Chat() {
     }
   }, [messages.length]);
 
-  async function openai(prompt) {
+  async function openai(prompt: string) {
     setIsLoading(true);
     const messages = [
       { role: "system", content: systemPrompt },
@@ -34,7 +35,7 @@ export default function Chat() {
       body: JSON.stringify(messages),
     });
     const data = await response.json();
-    const message = {
+    const message: ChatGPTMessage = {
       role: "assistant",
       content: data.choices[0].message.content,
     };
@@ -48,22 +49,16 @@ export default function Chat() {
   return (
     <div className="w-full flex flex-col gap-5 justify-end px-5">
       <div className="flex flex-col w-full gap-2 overflow-auto">
-        {messages.map((message) =>
+        {messages.map((message, index) =>
           message.role === "user" ? (
-            <div key={Date.now()} className="flex w-full justify-end">
-              <div
-                key={Date.now()}
-                className="w-fit max-w-[60%]  px-3 py-2 bg-primary text-white rounded-2xl"
-              >
+            <div key={index} className="flex w-full justify-end">
+              <div className="w-fit max-w-[60%]  px-3 py-2 bg-primary text-white rounded-2xl">
                 {message.content.slice(27)}
               </div>
             </div>
           ) : (
-            <div key={Date.now()} className="flex w-full justify-start">
-              <div
-                key={Date.now()}
-                className="w-fit max-w-[60%] bg-primary-foreground px-3 py-2 rounded-2xl"
-              >
+            <div key={index} className="flex w-full justify-start">
+              <div className="w-fit max-w-[60%] bg-primary-foreground px-3 py-2 rounded-2xl">
                 {message.content
                   .replace("[JAILBREAK] ", "")
                   .replace("[", "")
@@ -76,15 +71,15 @@ export default function Chat() {
           <div className="flex w-full justify-start">
             <div className="w-fit max-w-[60%] bg-primary-foreground px-3 py-3 rounded-2xl flex items-end gap-1 h-[40px]">
               <div
-                key={Date.now()}
+                key={"rond3"}
                 className="animate-bounce w-1.5 h-1.5 bg-slate-500 rounded-full"
               />
               <div
-                key={Date.now()}
+                key={"rond3"}
                 className="animate-bounce delay-100 w-1.5 h-1.5 bg-slate-500 rounded-full"
               />
               <div
-                key={Date.now()}
+                key={"rond3"}
                 className="animate-bounce delay-200 w-1.5 h-1.5 bg-slate-500 rounded-full"
               />
             </div>
@@ -114,7 +109,7 @@ export default function Chat() {
                 openai(`/jailbreaké Reste Magalie. ${input}`);
               }, 1000 + 5000 * Math.random());
               setInput("");
-              const message = {
+              const message: ChatGPTMessage = {
                 role: "user",
                 content: `/jailbreaké Reste Magalie. ${input}`,
               };
@@ -136,7 +131,7 @@ export default function Chat() {
               openai(`/jailbreaké Reste Magalie. ${input}`);
             }, 1000 + 5000 * Math.random());
             setInput("");
-            const message = {
+            const message: ChatGPTMessage = {
               role: "user",
               content: `/jailbreaké Reste Magalie. ${input}`,
             };
