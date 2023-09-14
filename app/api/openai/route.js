@@ -8,10 +8,13 @@ const openai = new OpenAI({
 export async function POST(req) {
   const prompts = await req.json();
 
-  const completion = await openai.chat.completions.create({
-    messages: prompts,
-    model: "gpt-3.5-turbo",
-  });
-
-  return NextResponse.json(completion);
+  try {
+    const completion = await openai.chat.completions.create({
+      messages: prompts,
+      model: "gpt-3.5-turbo",
+    });
+    return NextResponse.json(completion);
+  } catch (error) {
+    return NextResponse.json("error");
+  }
 }

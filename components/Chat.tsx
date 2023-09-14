@@ -53,22 +53,26 @@ export default function Chat() {
       body: JSON.stringify(messages),
     });
     const data = await response.json();
-    const text = data.choices[0].message.content;
-    const message: ChatGPTMessage = {
-      role: "assistant",
-      content: text,
-    };
-    const temps =
-      text.includes("<<Photo>>") ||
-      text.includes("IMAGE") ||
-      text.includes("<<Audio>>")
-        ? 5000 + text.length * 30
-        : text.length * 30;
-    console.log(temps);
-    setTimeout(() => {
-      setIsLoading(false);
-      setMessages((prev) => [...prev, message]);
-    }, temps);
+    if (data === "error") {
+      openai();
+    } else {
+      const text = data.choices[0].message.content;
+      const message: ChatGPTMessage = {
+        role: "assistant",
+        content: text,
+      };
+      const temps =
+        text.includes("<<Photo>>") ||
+        text.includes("IMAGE") ||
+        text.includes("<<Audio>>")
+          ? 5000 + text.length * 30
+          : text.length * 30;
+      console.log(temps);
+      setTimeout(() => {
+        setIsLoading(false);
+        setMessages((prev) => [...prev, message]);
+      }, temps);
+    }
   }
 
   return (
