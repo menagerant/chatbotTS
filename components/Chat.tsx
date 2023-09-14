@@ -93,6 +93,7 @@ export default function Chat() {
                 {message.content
                   .replace("[", "")
                   .replace("]", "")
+                  .replace('"', "")
                   .replace('"', "")}
               </div>
             </div>
