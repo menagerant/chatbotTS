@@ -1,5 +1,3 @@
-"use client";
-
 import Header from "@/components/Header";
 import { systemPrompt } from "./helpers/constants/system_prompt";
 import Chat from "@/components/Chat";
