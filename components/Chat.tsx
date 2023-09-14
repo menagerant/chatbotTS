@@ -90,7 +90,10 @@ export default function Chat() {
           ) : (
             <div key={index} className="flex w-full justify-start">
               <div className="w-fit max-w-[60%] bg-primary-foreground px-3 py-2 rounded-2xl">
-                {message.content.replace("[", "").replace("]", "")}
+                {message.content
+                  .replace("[", "")
+                  .replace("]", "")
+                  .replace('"', "")}
               </div>
             </div>
           )
