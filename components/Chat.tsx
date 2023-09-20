@@ -36,7 +36,8 @@ export default function Chat() {
 
   useEffect(() => {
     const getLocation = async () => {
-      const response = await fetch("/api/userlocation");
+      //const response = await fetch("/api/userlocation");
+      const response = await fetch(`http://ip-api.com/json/?lang=fr`);
       const data = await response.json();
       if (data !== "error") {
         console.log(data);
