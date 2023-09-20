@@ -42,7 +42,6 @@ export default function Chat() {
           "https://api.geoapify.com/v1/ipinfo?apiKey=0913a545ed2843e2ba722a620df262c7"
         );
         const data = await response.json();
-        console.log(data);
         setUserCity(data.city.name);
       } catch (error) {
         console.log("error", error);
@@ -114,7 +113,7 @@ export default function Chat() {
       } else {
         text = text.replace("[", "");
         text = text.replace("]", "");
-        text = text.replace(/[\"\"]/, "");
+        text = text.replace('"Maison"', "");
         text = text.replace(" Maison ", "%%Maison%%");
         text = text.replace("<<Maison>>", "%%Maison%%");
         text = text.replace("%%Maison%%", userCity);
