@@ -39,6 +39,7 @@ export default function Chat() {
       const response = await fetch("/api/userlocation");
       const data = await response.json();
       if (data !== "error") {
+        console.log(data);
         setUserCity(data.city);
       }
     };
