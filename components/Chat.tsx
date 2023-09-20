@@ -78,6 +78,7 @@ export default function Chat() {
       role: "user",
       content: input,
     };
+    console.log("input", input);
     setMessages((prev) => [...prev, message]);
     setInput("");
   }
