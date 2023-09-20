@@ -38,12 +38,14 @@ export default function Chat() {
     const getLocation = async () => {
       //const response = await fetch("/api/userlocation");
       try {
-        const response = await fetch(`http://ip-api.com/json/?lang=fr`);
+        const response = await fetch(
+          "https://api.geoapify.com/v1/ipinfo?apiKey=0913a545ed2843e2ba722a620df262c7"
+        );
         const data = await response.json();
         console.log(data);
-        setUserCity(data.city);
+        setUserCity(data.city.name);
       } catch (error) {
-        console.log(error);
+        console.log("error", error);
       }
     };
     getLocation();
