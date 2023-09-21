@@ -74,7 +74,7 @@ export default function Chat() {
 
   // add new message when send button click
 
-  async function submit(input: string) {
+  const submit = (input: string) => {
     const message: ChatGPTMessage = {
       role: "user",
       content: input,
@@ -83,7 +83,7 @@ export default function Chat() {
     setMessages((prev) => [...prev, message]);
     console.log("messages", messages);
     setInput("");
-  }
+  };
 
   // GPT-3.5 api function
 
@@ -294,7 +294,6 @@ export default function Chat() {
           maxRows={4}
           value={input}
           onChange={(e) => {
-            console.log("on change");
             setInput(e.target.value);
           }}
           autoFocus
@@ -309,6 +308,8 @@ export default function Chat() {
 
         <Button
           onClick={() => {
+            console.log("key down");
+            clearTimeout(typingTimer);
             submit(input);
           }}
           disabled={input === ""}
