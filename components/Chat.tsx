@@ -169,7 +169,7 @@ export default function Chat() {
     <>
       {/*Chat messages section*/}
 
-      <div className="fixed bottom-[64px] max-h-[calc(100vh-64px-68px)] w-full px-5 pb-3 pt-5 flex flex-col gap-2 overflow-scroll">
+      <div className="fixed bottom-[64px] max-h-[calc(100vh-64px-68px)] w-full px-5 pb-3 pt-5 flex flex-col gap-2 overflow-scroll overscroll-contain">
         {messages.map((message, index) =>
           message.role === "user" ? (
             // user message
@@ -293,9 +293,8 @@ export default function Chat() {
           }}
           autoFocus
           disabled={
-            isLoading ||
             messages.filter((m) => m.role === "assistant").length >
-              limit_reponses
+            limit_reponses
           }
           placeholder="Aa"
           className="rounded-2xl disabled:opacity-50 resize-none w-full border-0 bg-primary-foreground focus:ring-0"
@@ -305,7 +304,7 @@ export default function Chat() {
           onClick={() => {
             submit(input);
           }}
-          disabled={input === ""}
+          disabled={input === "" || isLoading}
           className="bg-transparent p-0 hover:bg-transparent hover:opacity-90 disabled:opacity-70"
         >
           <SendHorizonal color="#2563eb" size={24} strokeWidth={2.4} />
