@@ -19,7 +19,7 @@ export default function Chat() {
   ]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [audioRecording, setAudioRecording] = useState<boolean>(false);
-  const [userCity, setUserCity] = useState<string>("Brest");
+  const [userCity, setUserCity] = useState<string>("Paris");
 
   // variables const
   const limit_reponses = 10;
@@ -169,7 +169,9 @@ export default function Chat() {
     <>
       {/*Chat messages section*/}
 
-      <div className="fixed bottom-[4rem] max-h-[calc(100vh-4rem-4.25rem)] w-full px-5 pb-3 pt-5 flex flex-col gap-2 overflow-scroll overscroll-contain bg-red-100">
+      <div
+        className={`fixed bottom-[4rem] max-h-[calc(100vh-4rem-4.25rem)] w-full px-5 pb-3 pt-5 flex flex-col gap-2 overflow-scroll overscroll-contain bg-red-100`}
+      >
         {messages.map((message, index) =>
           message.role === "user" ? (
             // user message
