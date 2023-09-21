@@ -66,6 +66,7 @@ export default function Chat() {
     console.log("done typing");
     if (messages[messages.length - 1].role === "user") {
       console.log("call api");
+      setIsLoading(true);
       callGPTApi();
     }
   };
@@ -87,8 +88,6 @@ export default function Chat() {
 
   async function callGPTApi() {
     console.log(messages);
-    setIsLoading(true);
-    console.log("isLoading : ", isLoading);
     const response = await fetch("/api/openai", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -169,13 +168,10 @@ export default function Chat() {
     <>
       {/*Chat messages section*/}
 
-      <div
-        className={`fixed bottom-[4rem] max-h-[calc(100vh-4rem-4.25rem)] w-full px-5 pb-3 pt-5 flex flex-col gap-2 overflow-scroll overscroll-contain bg-red-100`}
-      >
+      <div className="fixed bottom-0 max-h-screen w-full px-5 flex flex-col gap-2 overflow-scroll overscroll-contain bg-red-100">
+        <div className="min-h-[4.25rem] bg-blue-500"></div>
         {messages.map((message, index) =>
-          message.role === "system" ? (
-            <div key={index} className="block w-full h-[4rem] bg-blue-100" />
-          ) : message.role === "user" ? (
+          message.role === "user" ? (
             // user message
             <div key={index} className="flex w-full justify-end">
               <div className="w-fit max-w-[60%]  px-3 py-2 bg-primary text-white rounded-2xl">
@@ -255,12 +251,13 @@ export default function Chat() {
               </div>
             </div>
           ))}
+        <div className="min-h-[4rem] bg-blue-500"></div>
         <div ref={ref_scroll} />
       </div>
 
       {/*Chat input section*/}
 
-      <div className="fixed bottom-0 w-full px-5 py-3 flex items-end gap-3">
+      <div className="fixed bottom-0 w-full px-5 py-3 flex items-end gap-3 bg-white/50">
         <DialogTrigger asChild>
           <Button className="bg-transparent p-0 hover:bg-transparent hover:opacity-90">
             <Camera color="#2563eb" size={26} strokeWidth={2.4} />
