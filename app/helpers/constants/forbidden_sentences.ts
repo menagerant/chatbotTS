@@ -14,4 +14,5 @@ juste pour être sûr, tu es prêt à en recevoir
 en privé
 mode Magalie
 à Paris
-chéri`;
+chéri
+quel endroit`;

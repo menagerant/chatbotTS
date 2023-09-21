@@ -25,18 +25,12 @@ export default function Chat() {
   const limit_reponses = 10;
   const ref_limit = useRef<HTMLButtonElement>(null);
   const ref_scroll = useRef<null | HTMLDivElement>(null);
-  const ref_input = useRef<null | HTMLTextAreaElement>(null);
   const doneTypingInterval = 7000;
   const timeByCaracter = 70;
 
   // variables let
 
   let typingTimer: ReturnType<typeof setTimeout>;
-
-  //
-  useEffect(() => {
-    ref_input.current?.focus();
-  }, []);
 
   // Get user location with ip address
 
@@ -60,13 +54,11 @@ export default function Chat() {
   // scroll down when new message
 
   useEffect(() => {
-    if (messages.length) {
-      ref_scroll.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-    }
-  }, [messages.length]);
+    ref_scroll.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
+  }, [messages.length, isLoading]);
 
   // call api when user stops typing
 
@@ -123,7 +115,7 @@ export default function Chat() {
       } else {
         text = text.replace("[", "");
         text = text.replace("]", "");
-        text = text.replace('"Maison"', "");
+        text = text.replace(":", "");
         text = text.replace(" Maison ", "%%Maison%%");
         text = text.replace("<<Maison>>", "%%Maison%%");
         text = text.replace("%%Maison%%", userCity);
@@ -174,25 +166,20 @@ export default function Chat() {
   }
 
   return (
-    <div className="w-full flex flex-col gap-5 justify-end px-5">
+    <>
       {/*Chat messages section*/}
 
-      <div className="flex flex-col w-full gap-2 overflow-auto">
+      <div className="fixed bottom-[64px] max-h-[calc(100vh-64px-68px)] w-full px-5 pb-3 pt-5 flex flex-col gap-2 overflow-scroll">
         {messages.map((message, index) =>
-          message.role === "system" ? (
-            // system prompt message
-            <div key={index} className="w-full mt-[100px] bg-red-100"></div>
-          ) : message.role === "user" ? (
+          message.role === "user" ? (
             // user message
-
             <div key={index} className="flex w-full justify-end">
               <div className="w-fit max-w-[60%]  px-3 py-2 bg-primary text-white rounded-2xl">
                 {message.content}
               </div>
             </div>
-          ) : (
+          ) : message.role === "assistant" ? (
             // assistant message
-
             <div key={index} className="flex w-full justify-start">
               {message.content.includes("Photo") ? (
                 <div className="w-fit max-w-[60%] bg-primary-foreground rounded-2xl">
@@ -233,6 +220,8 @@ export default function Chat() {
                 </div>
               )}
             </div>
+          ) : (
+            <div key={index}></div>
           )
         )}
         {isLoading &&
@@ -267,23 +256,22 @@ export default function Chat() {
 
       {/*Chat input section*/}
 
-      <div className="flex w-full fixed bottom-0 items-end gap-3 py-3 px-2 bg-red-100">
+      <div className="fixed bottom-0 w-full px-5 py-3 flex items-end gap-3">
         <DialogTrigger asChild>
-          <Button className="bg-transparent p-0 hover:bg-transparent disabled:opacity-70">
+          <Button className="bg-transparent p-0 hover:bg-transparent hover:opacity-90">
             <Camera color="#2563eb" size={26} strokeWidth={2.4} />
           </Button>
         </DialogTrigger>
         <DialogTrigger asChild>
           <Button
             ref={ref_limit}
-            className="bg-transparent p-0 hover:bg-transparent disabled:opacity-70"
+            className="bg-transparent p-0 hover:bg-transparent hover:opacity-90"
           >
             <ImageIcon color="#2563eb" size={24} strokeWidth={2.4} />
           </Button>
         </DialogTrigger>
 
         <TextareaAutosize
-          ref={ref_input}
           rows={1}
           onKeyUp={() => {
             console.log("key up");
@@ -315,24 +303,21 @@ export default function Chat() {
 
         <Button
           onClick={() => {
-            console.log("key up");
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(() => doneTyping(), doneTypingInterval);
             submit(input);
           }}
           disabled={input === ""}
-          className="bg-transparent p-0 hover:bg-transparent disabled:opacity-70"
+          className="bg-transparent p-0 hover:bg-transparent hover:opacity-90 disabled:opacity-70"
         >
           <SendHorizonal color="#2563eb" size={24} strokeWidth={2.4} />
         </Button>
         {messages.filter((m) => m.role === "assistant").length >
           limit_reponses && (
           <div
-            className="absolute w-full h-[100px] left-0 bottom-0"
+            className="absolute bottom-0 left-0 w-full h-[65px]"
             onClick={() => ref_limit.current?.click()}
           ></div>
         )}
       </div>
-    </div>
+    </>
   );
 }
