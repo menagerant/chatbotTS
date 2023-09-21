@@ -65,6 +65,7 @@ export default function Chat() {
   // call api when user stops typing
 
   const doneTyping = () => {
+    console.log("done typing", doneTyping);
     if (messages[messages.length - 1].role === "user") {
       console.log("call api");
       callGPTApi();
@@ -80,6 +81,7 @@ export default function Chat() {
     };
     console.log("input", input);
     setMessages((prev) => [...prev, message]);
+    console.log(messages);
     setInput("");
   }
 
@@ -277,10 +279,12 @@ export default function Chat() {
         <TextareaAutosize
           rows={1}
           onKeyUp={() => {
+            console.log("key up");
             clearTimeout(typingTimer);
             typingTimer = setTimeout(() => doneTyping(), doneTypingInterval);
           }}
           onKeyDown={(e) => {
+            console.log("key down");
             clearTimeout(typingTimer);
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
