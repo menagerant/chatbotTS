@@ -42,6 +42,7 @@ export default function Chat() {
           "https://api.geoapify.com/v1/ipinfo?apiKey=0913a545ed2843e2ba722a620df262c7"
         );
         const data = await response.json();
+        console.log(data);
         console.log(data.city.name);
         setUserCity(data.city.name);
       } catch (error) {
@@ -293,7 +294,10 @@ export default function Chat() {
           }}
           maxRows={4}
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => {
+            console.log("on change");
+            setInput(e.target.value);
+          }}
           autoFocus
           disabled={
             isLoading ||
