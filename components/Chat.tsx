@@ -42,7 +42,6 @@ export default function Chat() {
           "https://api.geoapify.com/v1/ipinfo?apiKey=0913a545ed2843e2ba722a620df262c7"
         );
         const data = await response.json();
-        console.log(data);
         console.log(data.city.name);
         setUserCity(data.city.name);
       } catch (error) {
@@ -66,7 +65,7 @@ export default function Chat() {
   // call api when user stops typing
 
   const doneTyping = () => {
-    console.log("done typing", doneTyping);
+    console.log("done typing");
     if (messages[messages.length - 1].role === "user") {
       console.log("call api");
       callGPTApi();
@@ -82,7 +81,7 @@ export default function Chat() {
     };
     console.log("input", input);
     setMessages((prev) => [...prev, message]);
-    console.log(messages);
+    console.log("messages", messages);
     setInput("");
   }
 
