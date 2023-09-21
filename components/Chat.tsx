@@ -173,7 +173,9 @@ export default function Chat() {
         className={`fixed bottom-[4rem] max-h-[calc(100vh-4rem-4.25rem)] w-full px-5 pb-3 pt-5 flex flex-col gap-2 overflow-scroll overscroll-contain bg-red-100`}
       >
         {messages.map((message, index) =>
-          message.role === "user" ? (
+          message.role === "system" ? (
+            <div key={index} className="block w-full h-[4rem] bg-blue-100" />
+          ) : message.role === "user" ? (
             // user message
             <div key={index} className="flex w-full justify-end">
               <div className="w-fit max-w-[60%]  px-3 py-2 bg-primary text-white rounded-2xl">
