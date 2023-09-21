@@ -308,8 +308,9 @@ export default function Chat() {
 
         <Button
           onClick={() => {
-            console.log("key down");
+            console.log("key up");
             clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => doneTyping(), doneTypingInterval);
             submit(input);
           }}
           disabled={input === ""}
