@@ -25,6 +25,7 @@ export default function Chat() {
   const limit_reponses = 10;
   const ref_limit = useRef<HTMLButtonElement>(null);
   const ref_scroll = useRef<null | HTMLDivElement>(null);
+  const ref_input = useRef<null | HTMLDivElement>(null);
   const doneTypingInterval = 7000;
   const timeByCaracter = 70;
 
@@ -49,6 +50,15 @@ export default function Chat() {
       }
     };
     getLocation();
+  }, []);
+
+  // scroll down to see input on mobile
+
+  useEffect(() => {
+    ref_input.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   }, []);
 
   // scroll down when new message
@@ -261,7 +271,7 @@ export default function Chat() {
 
       {/*Chat input section*/}
 
-      <div className="flex items-end gap-3 py-3">
+      <div className="flex items-end gap-3 py-3" ref={ref_input}>
         <DialogTrigger asChild>
           <Button className="bg-transparent p-0 hover:bg-transparent disabled:opacity-70">
             <Camera color="#2563eb" size={26} strokeWidth={2.4} />
