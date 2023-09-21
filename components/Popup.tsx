@@ -10,7 +10,7 @@ import { Button } from "./ui/button";
 
 export default function Popup() {
   return (
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent className="w-10/12 sm:max-w-[425px]">
       <DialogHeader>
         <DialogTitle>Essai gratuit expiré</DialogTitle>
         <DialogDescription>

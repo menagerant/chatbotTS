@@ -5,7 +5,7 @@ import { DialogTrigger } from "./ui/dialog";
 
 export default function Header() {
   return (
-    <div className="z-40 fixed top-0 w-full px-5 py-3 flex items-center justify-between bg-white shadow-md ">
+    <div className="z-40 fixed top-0 w-full px-5 py-3 flex items-center justify-between bg-white shadow-md opacity-50">
       <div className="flex gap-3 items-center">
         <div className="w-10 h-10">
           <Avatar>
