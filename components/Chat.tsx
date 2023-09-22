@@ -184,9 +184,9 @@ export default function Chat() {
       {/*Chat messages section*/}
 
       <div
-        className={`fixed bottom-0 max-h-full w-full px-5 flex flex-col gap-2 overflow-scroll overscroll-contain bg-red-100`}
+        className={`fixed bottom-0 max-h-full w-full px-5 flex flex-col gap-2 overflow-scroll overscroll-contain`}
       >
-        <div className="min-h-[4.25rem] bg-blue-500" />
+        <div className="min-h-[4.25rem]" />
         {messages.map((message, index) =>
           message.role === "user" ? (
             // user message
@@ -202,7 +202,7 @@ export default function Chat() {
                 <div className="w-fit max-w-[60%] bg-primary-foreground rounded-2xl">
                   <Image
                     className="rounded-2xl"
-                    src={`/Photo${
+                    src={`/photo${
                       messages
                         .slice(0, index + 1)
                         .filter(
@@ -220,7 +220,7 @@ export default function Chat() {
                 <div className="w-fit max-w-[60%] bg-primary-foreground rounded-2xl">
                   <audio
                     controls
-                    src={`/Audio${
+                    src={`/audio${
                       messages
                         .slice(0, index + 1)
                         .filter(
@@ -268,7 +268,7 @@ export default function Chat() {
               </div>
             </div>
           ))}
-        <div className="min-h-[4rem] bg-blue-500" />
+        <div className="min-h-[4rem]" />
         <div ref={ref_scroll} />
       </div>
 
