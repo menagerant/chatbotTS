@@ -184,8 +184,11 @@ export default function Chat() {
       {/*Chat messages section*/}
 
       <div
-        className={`fixed bottom-0 h-[${windowSize}px] w-full px-5 flex flex-col gap-2 overflow-scroll overscroll-contain bg-red-100`}
+        className={`fixed bottom-0 max-h-[${windowSize}px] w-full px-5 flex flex-col gap-2 overflow-scroll overscroll-contain bg-red-100`}
       >
+        <div
+          className={`absolute left-0 bottom-0 w-5 min-h-[${windowSize}px] bg-yellow-100 opacity-80`}
+        ></div>
         <div className="min-h-[4.25rem] bg-blue-500">{windowSize} px</div>
         {messages.map((message, index) =>
           message.role === "user" ? (
