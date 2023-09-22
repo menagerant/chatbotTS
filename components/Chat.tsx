@@ -274,7 +274,7 @@ export default function Chat() {
 
       {/*Chat input section*/}
 
-      <div className="fixed bottom-0 w-full px-5 py-3 flex items-end gap-3 bg-white/50">
+      <div className="fixed bottom-0 w-full px-5 py-3 flex items-end gap-3 bg-white/70 backdrop-blur-lg">
         <DialogTrigger asChild>
           <Button className="bg-transparent p-0 hover:bg-transparent hover:opacity-90">
             <Camera color="#2563eb" size={26} strokeWidth={2.4} />
