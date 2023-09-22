@@ -20,6 +20,7 @@ export default function Chat() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [audioRecording, setAudioRecording] = useState<boolean>(false);
   const [userCity, setUserCity] = useState<string>("Paris");
+  const [windowSize, setWindowSize] = useState<number>(0);
 
   // variables const
   const limit_reponses = 10;
@@ -31,6 +32,20 @@ export default function Chat() {
   // variables let
 
   let typingTimer: ReturnType<typeof setTimeout>;
+
+  // get
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWindowSize(window.innerHeight);
+    };
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
 
   // Get user location with ip address
 
@@ -168,8 +183,10 @@ export default function Chat() {
     <>
       {/*Chat messages section*/}
 
-      <div className="fixed bottom-0 max-h-screen w-full px-5 flex flex-col gap-2 overflow-scroll overscroll-contain bg-red-100">
-        <div className="min-h-[4.25rem] bg-blue-500"></div>
+      <div
+        className={`fixed bottom-0 h-[${windowSize}px] w-full px-5 flex flex-col gap-2 overflow-scroll overscroll-contain bg-red-100`}
+      >
+        <div className="min-h-[4.25rem] bg-blue-500">{windowSize} px</div>
         {messages.map((message, index) =>
           message.role === "user" ? (
             // user message
