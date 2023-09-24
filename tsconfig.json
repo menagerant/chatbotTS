@@ -31,7 +31,9 @@
     "app/page.tsx",
     "app/layout.tsx",
     "components/Chat.tsx",
-    "components/Header.tsx"
+    "components/Header.tsx",
+    "utils/database.js",
+    "app/api/chat/[id]/route.js"
   ],
   "exclude": ["node_modules"]
 }

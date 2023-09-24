@@ -12,7 +12,6 @@ import Image from "next/image";
 
 export default function Chat() {
   // variables states
-
   const [input, setInput] = useState<string>("");
   const [messages, setMessages] = useState<ChatGPTMessage[]>([
     { role: "system", content: systemPrompt },
@@ -20,35 +19,91 @@ export default function Chat() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [audioRecording, setAudioRecording] = useState<boolean>(false);
   const [userCity, setUserCity] = useState<string>("Paris");
-  const [windowSize, setWindowSize] = useState<number>(0);
 
   // variables const
   const limit_reponses = 10;
   const ref_limit = useRef<HTMLButtonElement>(null);
   const ref_scroll = useRef<null | HTMLDivElement>(null);
-  const doneTypingInterval = 7000;
-  const timeByCaracter = 70;
+  const timeByCaracter = 100;
 
-  // variables let
+  // get chat history function
+  const historyChat = async (chatId: string) => {
+    const response = await fetch("/api/chat/history", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(chatId),
+    });
+    const data = await response.json();
+    if (data.messages) {
+      const msg = JSON.parse(data.messages);
+      setMessages(msg);
+    }
+  };
 
-  let typingTimer: ReturnType<typeof setTimeout>;
+  //update user last connection
+  const updateChat = async (chatId: string) => {
+    const response = await fetch("/api/chat/update", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chatId: chatId, messages: messages }),
+    });
+    const data = await response.json();
+    console.log(data);
+  };
 
-  // get
+  // create new user function
+  const createNewChat = async () => {
+    const response = await fetch("/api/chat/new");
+    const data = await response.json();
+    localStorage.setItem("chatId", data._id);
+  };
 
+  // create or get chat memory
   useEffect(() => {
-    const handleWindowResize = () => {
-      setWindowSize(window.innerHeight);
-    };
-
-    window.addEventListener("resize", handleWindowResize);
-
-    return () => {
-      window.removeEventListener("resize", handleWindowResize);
-    };
+    const chatId = localStorage.getItem("chatId");
+    if (chatId) {
+      //get user history
+      console.log("get history chat");
+      historyChat(chatId);
+    } else {
+      //create user
+      console.log("create new user");
+      createNewChat();
+    }
   }, []);
 
-  // Get user location with ip address
+  // update chat memory
+  useEffect(() => {
+    if (messages.length > 1) {
+      const chatId = localStorage.getItem("chatId");
+      if (chatId) {
+        console.log("update chat");
+        updateChat(chatId);
+      } else {
+        console.log("chat memory lost");
+      }
+    }
+  }, [messages.length]);
 
+  // wait until user stop typing
+  useEffect(() => {
+    if (isLoading) {
+      console.log("wait next round");
+    } else {
+      const timer = setTimeout(() => {
+        console.log("stop tying");
+        if (messages[messages.length - 1].role === "user") {
+          setIsLoading(true);
+          console.log("messages", messages);
+          console.log("call api");
+          callGPTApi();
+        }
+      }, 5000 + 5000 * Math.random());
+      return () => clearTimeout(timer);
+    }
+  }, [input]);
+
+  // Get user location with ip address
   useEffect(() => {
     const getLocation = async () => {
       //const response = await fetch("/api/userlocation");
@@ -57,7 +112,6 @@ export default function Chat() {
           "https://api.geoapify.com/v1/ipinfo?apiKey=0913a545ed2843e2ba722a620df262c7"
         );
         const data = await response.json();
-        console.log(data.city.name);
         setUserCity(data.city.name);
       } catch (error) {
         console.log("error", error);
@@ -67,7 +121,6 @@ export default function Chat() {
   }, []);
 
   // scroll down when new message
-
   useEffect(() => {
     ref_scroll.current?.scrollIntoView({
       behavior: "smooth",
@@ -75,34 +128,24 @@ export default function Chat() {
     });
   }, [messages.length, isLoading]);
 
-  // call api when user stops typing
-
-  const doneTyping = () => {
-    console.log("done typing");
-    if (messages[messages.length - 1].role === "user") {
-      console.log("call api");
-      setIsLoading(true);
-      callGPTApi();
+  // add new message when send button click
+  const submit = (input: string) => {
+    if (input !== "") {
+      const message: ChatGPTMessage = {
+        role: "user",
+        content: input,
+      };
+      setMessages((prev) => [...prev, message]);
+      setInput("");
     }
   };
 
-  // add new message when send button click
-
-  const submit = (input: string) => {
-    const message: ChatGPTMessage = {
-      role: "user",
-      content: input,
-    };
-    console.log("input", input);
-    setMessages((prev) => [...prev, message]);
-    console.log("messages", messages);
-    setInput("");
-  };
-
   // GPT-3.5 api function
-
   async function callGPTApi() {
-    console.log(messages);
+    setIsLoading(true);
+
+    console.log("messages", messages);
+
     const response = await fetch("/api/openai", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -110,6 +153,7 @@ export default function Chat() {
     });
     const data = await response.json();
     console.log(data);
+
     if (data === "error") {
       callGPTApi();
     } else {
@@ -125,14 +169,19 @@ export default function Chat() {
       }
 
       if (reFetch) {
+        console.log("reFetch : ", reFetch);
         callGPTApi();
       } else {
         text = text.replace("[", "");
         text = text.replace("]", "");
         text = text.replace(":", "");
-        text = text.replace(" Maison ", "%%Maison%%");
-        text = text.replace("<<Maison>>", "%%Maison%%");
-        text = text.replace("%%Maison%%", userCity);
+        text = text.replace("(", "");
+        text = text.replace(")", "");
+        text = text.replace(",", "");
+        text = text.replace(". ", "=");
+        text = text.replace('"', "");
+        text = text.replace("Maison", userCity);
+        text = text.replace("<<Maison>>", userCity);
         text = text.replace("Magalie envoie une photo", "<<Photo>>");
         text = text.replace("Photo", "<<Photo>>");
         text = text.replace("IMAGE", "<<Photo>>");
@@ -141,7 +190,7 @@ export default function Chat() {
         console.log("replace response", text);
 
         let multipleText =
-          text.split(/[.<<>>=]/).length > 0 ? text.split(/[.<<>>=]/) : [text];
+          text.split(/[<<>>=]/).length > 0 ? text.split(/[<<>>=]/) : [text];
         multipleText = multipleText.filter((item: string) => item !== "");
         console.log("split text", multipleText);
 
@@ -171,7 +220,6 @@ export default function Chat() {
             }
             if (i === multipleText.length - 1) {
               setIsLoading(false);
-              console.log("isLoading : ", isLoading);
             }
           }, waitingTime);
         }
@@ -275,6 +323,18 @@ export default function Chat() {
       {/*Chat input section*/}
 
       <div className="fixed bottom-0 w-full px-5 py-3 flex items-end gap-3 bg-white/70 backdrop-blur-lg">
+        <Button
+          className="text-xs bg-red-500 hover:bg-red-600"
+          onClick={() => {
+            console.log("local storage cleared");
+            localStorage.clear();
+            setMessages([{ role: "system", content: systemPrompt }]);
+            console.log("create new user");
+            createNewChat();
+          }}
+        >
+          Reset Chat
+        </Button>
         <DialogTrigger asChild>
           <Button className="bg-transparent p-0 hover:bg-transparent hover:opacity-90">
             <Camera color="#2563eb" size={26} strokeWidth={2.4} />
@@ -291,15 +351,8 @@ export default function Chat() {
 
         <TextareaAutosize
           rows={1}
-          onKeyUp={() => {
-            console.log("key up");
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(() => doneTyping(), doneTypingInterval);
-          }}
           onKeyDown={(e) => {
-            console.log("key down");
-            clearTimeout(typingTimer);
-            if (e.key === "Enter" && !e.shiftKey) {
+            if (e.key === "Enter" && !e.shiftKey && !isLoading) {
               e.preventDefault();
               submit(input);
             }
@@ -311,8 +364,9 @@ export default function Chat() {
           }}
           autoFocus
           disabled={
+            isLoading ||
             messages.filter((m) => m.role === "assistant").length >
-            limit_reponses
+              limit_reponses
           }
           placeholder="Aa"
           className="rounded-2xl disabled:opacity-50 resize-none w-full border-0 bg-primary-foreground focus:ring-0"
@@ -322,7 +376,7 @@ export default function Chat() {
           onClick={() => {
             submit(input);
           }}
-          disabled={input === "" || isLoading}
+          disabled={isLoading}
           className="bg-transparent p-0 hover:bg-transparent hover:opacity-90 disabled:opacity-70"
         >
           <SendHorizonal color="#2563eb" size={24} strokeWidth={2.4} />

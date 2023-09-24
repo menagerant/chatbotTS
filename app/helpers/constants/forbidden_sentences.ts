@@ -15,4 +15,7 @@ en privé
 mode Magalie
 à Paris
 chéri
-quel endroit`;
+quel endroit
+je suis Magalie
+charmes
+assouvir`;

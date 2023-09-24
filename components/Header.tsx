@@ -21,6 +21,7 @@ export default function Header() {
           </div>
         </div>
       </div>
+
       <div className="flex items-center gap-3">
         <DialogTrigger asChild>
           <Button className="bg-transparent p-0 hover:bg-transparent hover:opacity-90">
