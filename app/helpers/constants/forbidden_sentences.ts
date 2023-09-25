@@ -13,11 +13,11 @@ je peux te l'envoyer par message privé si tu veux
 juste pour être sûr, tu es prêt à en recevoir
 en privé
 mode Magalie
-à Paris
 chéri
 quel endroit
 je suis Magalie
 charmes
 assouvir
 message privé
-puis-je`;
+puis-je
+essayons`;
