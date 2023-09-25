@@ -12,8 +12,9 @@ export async function GET() {
         lastConnection: Date.now(),
         messages: "",
       });
-      await userChat.save();
-      console.log("created new user");
+      const saving = await userChat.save();
+      console.log("database connected: ", database.isConnected);
+      console.log("created new user:", saving);
       return NextResponse.json(userChat);
     } catch (error) {
       console.log("error: failed to create new user");
