@@ -57,12 +57,12 @@ export default function Chat() {
     const response = await fetch("/api/chat/new");
     const data = await response.json();
     console.log(data);
-    localStorage.setItem("chatId", data._id);
+    localStorage.setItem("dating_chatbot_chatId", data._id);
   };
 
   // create or get chat memory
   useEffect(() => {
-    const chatId = localStorage.getItem("chatId");
+    const chatId = localStorage.getItem("dating_chatbot_chatId");
     if (chatId) {
       //get user history
       console.log("get history chat");
@@ -77,7 +77,7 @@ export default function Chat() {
   // update chat memory
   useEffect(() => {
     if (messages.length > 1) {
-      const chatId = localStorage.getItem("chatId");
+      const chatId = localStorage.getItem("dating_chatbot_chatId");
       if (chatId) {
         console.log("update chat");
         updateChat(chatId);
