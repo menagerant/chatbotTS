@@ -55,9 +55,10 @@ export default function Chat() {
   // create new user function
   const createNewChat = async () => {
     const chatId = Math.floor(Math.random() * Date.now()).toString(36);
+    console.log(chatId);
     localStorage.setItem("dating_chatbot_chatId", chatId);
     const response = await fetch("/api/chat/new", {
-      method: "PATCH",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(chatId),
     });

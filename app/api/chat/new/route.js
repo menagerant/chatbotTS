@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import Chat from "@/models/chat";
 import database from "@/utils/database";
 
-export async function POST() {
+export async function POST(req) {
   const chatId = await req.json();
   if (database.isConnected) {
     console.log("MongoDB connected");
