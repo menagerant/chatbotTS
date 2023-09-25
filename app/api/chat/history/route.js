@@ -12,7 +12,7 @@ export async function POST(req) {
     console.log("finded chat");
     return NextResponse.json(chat);
   } catch (error) {
-    console.log(error);
+    console.log("error: failed to fetch existing chat");
     return NextResponse.json("error: failed to fetch existing chat");
   }
 }
