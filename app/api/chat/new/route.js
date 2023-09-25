@@ -2,12 +2,14 @@ import { NextResponse } from "next/server";
 import Chat from "@/models/chat";
 import database from "@/utils/database";
 
-export async function GET() {
+export async function POST() {
+  const chatId = await req.json();
   if (database.isConnected) {
     console.log("MongoDB connected");
     try {
       console.log("creating new user");
       const userChat = new Chat({
+        id: chatId,
         firstConnection: Date.now(),
         lastConnection: Date.now(),
         messages: "",

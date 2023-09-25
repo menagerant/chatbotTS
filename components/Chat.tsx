@@ -54,15 +54,21 @@ export default function Chat() {
 
   // create new user function
   const createNewChat = async () => {
-    const response = await fetch("/api/chat/new");
+    const chatId = Math.floor(Math.random() * Date.now()).toString(36);
+    localStorage.setItem("dating_chatbot_chatId", chatId);
+    const response = await fetch("/api/chat/new", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(chatId),
+    });
     const data = await response.json();
     console.log(data);
-    localStorage.setItem("dating_chatbot_chatId", data._id);
   };
 
   // create or get chat memory
   useEffect(() => {
-    const chatId = localStorage.getItem("dating_chatbot_chatId");
+    let chatId = localStorage.getItem("dating_chatbot_chatId");
+    console.log(chatId);
     if (chatId) {
       //get user history
       console.log("get history chat");
