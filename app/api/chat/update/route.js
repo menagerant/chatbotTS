@@ -8,7 +8,7 @@ export async function PATCH(req) {
     console.log("MongoDB connected");
     try {
       console.log("finding chat");
-      const existingChat = await Chat.findById(chatId);
+      const existingChat = await Chat.findOne({ id: chatId });
       if (!existingChat) {
         return NextResponse.json("error: chat not found");
       } else {

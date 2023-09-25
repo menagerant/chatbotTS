@@ -8,7 +8,7 @@ export async function POST(req) {
     console.log("MongoDB connected");
     try {
       console.log("finding chat");
-      const chat = await Chat.findById(chatId);
+      const chat = await Chat.findOne({ id: chatId });
       console.log("finded chat");
       return NextResponse.json(chat);
     } catch (error) {
