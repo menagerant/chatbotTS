@@ -1,25 +1,19 @@
 import mongoose from "mongoose";
 
-let isConnected = false;
+const uri = process.env.MONGODB_URI; // Replace with your MongoDB connection string
 
-export const connectToDB = async () => {
-  mongoose.set("strictQuery", true);
+if (!uri) {
+  throw new Error("MongoDB connection string is missing.");
+}
 
-  if (isConnected) {
-    console.log("MongoDB is already connected");
-    return;
-  }
+const connection = {};
 
-  try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      dbName: "dating_chatbot",
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+if (!connection.isConnected) {
+  mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  connection.isConnected = mongoose.connections[0].readyState;
+}
 
-    isConnected = true;
-    console.log("MongoDB connected");
-  } catch (error) {
-    console.log(error);
-  }
-};
+export default connection;
