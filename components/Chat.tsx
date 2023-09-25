@@ -34,7 +34,8 @@ export default function Chat() {
       body: JSON.stringify(chatId),
     });
     const data = await response.json();
-    if (data.messages) {
+    console.log(data);
+    if (data?.messages) {
       const msg = JSON.parse(data.messages);
       setMessages(msg);
     }
@@ -55,6 +56,7 @@ export default function Chat() {
   const createNewChat = async () => {
     const response = await fetch("/api/chat/new");
     const data = await response.json();
+    console.log(data);
     localStorage.setItem("chatId", data._id);
   };
 

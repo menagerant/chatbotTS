@@ -16,6 +16,6 @@ export async function GET() {
     return NextResponse.json(userChat);
   } catch (error) {
     console.log(error);
-    return NextResponse.json("error");
+    return NextResponse.json("error: failed to create new user");
   }
 }

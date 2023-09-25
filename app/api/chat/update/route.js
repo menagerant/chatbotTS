@@ -26,6 +26,6 @@ export async function PATCH(req) {
     return NextResponse.json(existingChat);
   } catch (error) {
     console.log(error);
-    return NextResponse.json("error");
+    return NextResponse.json("error: failed to update chat");
   }
 }

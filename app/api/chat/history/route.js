@@ -13,6 +13,6 @@ export async function POST(req) {
     return NextResponse.json(chat);
   } catch (error) {
     console.log(error);
-    return NextResponse.json("error");
+    return NextResponse.json("error: failed to fetch existing chat");
   }
 }
