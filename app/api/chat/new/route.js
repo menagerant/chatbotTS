@@ -13,7 +13,6 @@ export async function GET() {
         messages: "",
       });
       const saving = await userChat.save();
-      console.log("database connected: ", database.isConnected);
       console.log("created new user:", saving);
       return NextResponse.json(userChat);
     } catch (error) {
@@ -22,5 +21,6 @@ export async function GET() {
     }
   } else {
     console.log("MongoDB not connected");
+    return NextResponse.json("error: MongoDB not connected");
   }
 }
