@@ -393,7 +393,7 @@ export default function Chat() {
         {messages.filter((m) => m.role === "assistant").length >
           limit_reponses && (
           <div
-            className="absolute bottom-0 left-0 w-full h-[65px]"
+            className="absolute bottom-0 right-0 w-3/4 h-[65px]"
             onClick={() => ref_limit.current?.click()}
           ></div>
         )}
