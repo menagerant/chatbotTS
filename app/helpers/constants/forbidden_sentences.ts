@@ -20,4 +20,7 @@ charmes
 assouvir
 message privé
 puis-je
-essayons`;
+essayons
+ta demande
+je ne suis pas capable
+je ne suis pas autorisée`;

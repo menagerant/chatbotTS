@@ -16,7 +16,15 @@ const ChatSchema = new Schema({
   },
   messages: {
     type: String,
-    required: false,
+    required: [true, "Messages is required!"],
+  },
+  popupClics: {
+    type: Number,
+    required: [true, "Popup clics is required!"],
+  },
+  conversion: {
+    type: Boolean,
+    required: [true, "Conversion is required!"],
   },
 });
 

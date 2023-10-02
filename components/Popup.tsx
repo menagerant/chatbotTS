@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import {
   DialogContent,
@@ -7,49 +9,63 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
+import { ShieldCheck } from "lucide-react";
 
 export default function Popup() {
+  //update user conversion
+  const updateChatConversion = async (chatId: string) => {
+    const response = await fetch("/api/chat/update/conversion", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(chatId),
+    });
+    const data = await response.json();
+    console.log(data);
+  };
+
   return (
-    <DialogContent className="w-10/12 sm:max-w-[425px]">
-      <DialogHeader>
-        <DialogTitle>Essai gratuit expiré</DialogTitle>
-        <DialogDescription>
-          Vous avez atteint le nombre maximum de messages gratuits. Cliquez sur
-          le bouton pour continuer à discuter.
-        </DialogDescription>
-      </DialogHeader>
-      <div className="flex gap-6 py-3 items-center justify-between">
-        <div>
-          Vous avez échangé avec <span className="font-bold">Magalie B.</span>{" "}
-          mais d autres filles vous attendent !
-        </div>
-        <div className="flex">
-          <div className="w-10 h-10 bg-slate-500 rounded-full shadow-md mr-[-10px] overflow-hidden">
-            <Image
-              src="/magalieb.png"
-              width={100}
-              height={100}
-              alt="Magalie B."
-            />
-          </div>
-          <div className="w-10 h-10 bg-slate-500 rounded-full shadow-md mr-[-10px] overflow-hidden">
-            <Image src="/manonv.png" width={100} height={100} alt="Manon V." />
-          </div>
-          <div className="w-10 h-10 bg-slate-500 rounded-full shadow-md mr-[-10px] overflow-hidden">
-            <Image
-              src="/sophiaj.png"
-              width={100}
-              height={100}
-              alt="Sophia J."
-            />
-          </div>
-          <div className="w-10 h-10 bg-slate-500 rounded-full shadow-md overflow-hidden">
-            <Image src="/annat.png" width={100} height={100} alt="Anna T." />
-          </div>
-        </div>
+    <DialogContent className="flex flex-col items-center w-10/12 sm:max-w-[480px] p-8 bg-[#1D1D23] text-white text-center">
+      <div className="relative">
+        <Image
+          src="/manon.png"
+          width={110}
+          height={110}
+          alt="Manon"
+          className="rounded-full opacity-80"
+        />
+        <div className="absolute -top-2 -left-2 w-[125px] h-[125px] rounded-full border-[3px] border-[#E95576]"></div>
+        <ShieldCheck
+          width={50}
+          height={50}
+          fill="#62C7D3"
+          strokeWidth={1}
+          className="absolute -bottom-3 -right-3"
+        />
+      </div>
+      <p className="text-lg font-semibold mb-3">
+        Vous devez certifier votre compte pour continuer la discussion
+      </p>
+      <div>
+        <h2 className="text-2xl font-semibold text-[#E95576]">
+          devenez premium
+        </h2>
+        <p className="text-sm">
+          pour chatter avec Manon et tous les autres membres certifiés
+        </p>
       </div>
       <DialogFooter>
-        <Button>Continuer à discuter</Button>
+        <Button
+          className="bg-gradient-to-r from-[#812350] to-[#E95576] px-10 rounded-full border-2 border-[#E95576] hover:opacity-90"
+          onClick={() => {
+            const chatId = localStorage.getItem("dating_chatbot_chatId");
+            if (chatId) {
+              updateChatConversion(chatId);
+            }
+            window.location.href = "https://bit.ly/manon-invitation-lien";
+          }}
+        >
+          Continuer à discuter
+        </Button>
       </DialogFooter>
     </DialogContent>
   );
