@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { ChatGPTMessage } from "@/lib/openai";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { DialogTrigger } from "../ui/dialog";
 
 export default function Chat() {
   // variables states
@@ -206,6 +207,7 @@ export default function Chat() {
         text = text.replace("(", "");
         text = text.replace(")", "");
         text = text.replace(",", "");
+        text = text.replace("*", "");
         text = text.replace(". ", "=");
         text = text.replace('"', "");
         text = text.replace("Maison", userCity);
@@ -295,11 +297,10 @@ export default function Chat() {
                 <div
                   className={`w-fit max-w-[60%] ${
                     messages[index - 1].role === "user" && "rounded-t-2xl"
-                  } rounded-sm rounded-r-2xl bg-white overflow-hidden`}
+                  } rounded-sm rounded-r-2xl overflow-hidden`}
                 >
-                  <Image
+                  <DialogTrigger
                     onClick={() => {
-                      ref_limit.current?.click();
                       const chatId = localStorage.getItem(
                         "dating_chatbot_chatId"
                       );
@@ -307,25 +308,37 @@ export default function Chat() {
                         updateChatPopupClics(chatId);
                       }
                     }}
-                    src={`/photo${
-                      messages
-                        .slice(0, index + 1)
-                        .filter(
-                          (item) =>
-                            item.role === "assistant" &&
-                            item.content.includes("Photo")
-                        ).length
-                    }.png`}
-                    alt={message.content}
-                    width={1080}
-                    height={1440}
-                  />
+                  >
+                    <Image
+                      onClick={() => {
+                        ref_limit.current?.click();
+                        const chatId = localStorage.getItem(
+                          "dating_chatbot_chatId"
+                        );
+                        if (chatId) {
+                          updateChatPopupClics(chatId);
+                        }
+                      }}
+                      src={`/photo${
+                        messages
+                          .slice(0, index + 1)
+                          .filter(
+                            (item) =>
+                              item.role === "assistant" &&
+                              item.content.includes("Photo")
+                          ).length
+                      }.png`}
+                      alt={message.content}
+                      width={1080}
+                      height={1440}
+                    />
+                  </DialogTrigger>
                 </div>
               ) : message.content.includes("Audio") ? (
                 <div
                   className={`w-fit max-w-[60%] ${
                     messages[index - 1].role === "user" && "rounded-t-2xl"
-                  } rounded-sm rounded-r-2xl bg-white overflow-hidden`}
+                  } rounded-sm rounded-r-2xl overflow-hidden`}
                 >
                   <audio
                     controls
@@ -344,11 +357,10 @@ export default function Chat() {
                 <div
                   className={`w-fit max-w-[60%] ${
                     messages[index - 1].role === "user" && "rounded-t-2xl"
-                  } rounded-sm rounded-r-2xl bg-white overflow-hidden`}
+                  } rounded-sm rounded-r-2xl overflow-hidden`}
                 >
-                  <video
+                  <DialogTrigger
                     onClick={() => {
-                      ref_limit.current?.click();
                       const chatId = localStorage.getItem(
                         "dating_chatbot_chatId"
                       );
@@ -356,17 +368,29 @@ export default function Chat() {
                         updateChatPopupClics(chatId);
                       }
                     }}
-                    autoPlay
-                    src={`/video${
-                      messages
-                        .slice(0, index + 1)
-                        .filter(
-                          (item) =>
-                            item.role === "assistant" &&
-                            item.content.includes("Video")
-                        ).length
-                    }.mov`}
-                  />
+                  >
+                    <video
+                      onClick={() => {
+                        ref_limit.current?.click();
+                        const chatId = localStorage.getItem(
+                          "dating_chatbot_chatId"
+                        );
+                        if (chatId) {
+                          updateChatPopupClics(chatId);
+                        }
+                      }}
+                      autoPlay
+                      src={`/video${
+                        messages
+                          .slice(0, index + 1)
+                          .filter(
+                            (item) =>
+                              item.role === "assistant" &&
+                              item.content.includes("Video")
+                          ).length
+                      }.mov`}
+                    />
+                  </DialogTrigger>
                 </div>
               ) : (
                 <div
@@ -386,25 +410,25 @@ export default function Chat() {
           (audioRecording ? (
             // audio recording anmation
             <div className="flex w-full justify-start">
-              <div className="w-fit max-w-[60%] bg-primary-foreground px-3 py-3 rounded-2xl text-slate-500">
+              <div className="w-fit max-w-[60%] bg-white px-3 py-3 rounded-2xl text-[#707070]">
                 Enregistrement d'un audio...
               </div>
             </div>
           ) : (
             // loading animation
             <div className="flex w-full justify-start">
-              <div className="w-fit max-w-[60%] bg-primary-foreground px-3 py-3 rounded-2xl flex items-end gap-1 h-[40px]">
+              <div className="w-fit max-w-[60%] bg-white px-3 py-3 rounded-2xl flex items-end gap-1 h-[40px]">
                 <div
                   key={"rond1"}
-                  className="animate-bounce w-1.5 h-1.5 bg-slate-500 rounded-full"
+                  className="animate-bounce w-1.5 h-1.5 bg-[#707070] rounded-full"
                 />
                 <div
                   key={"rond2"}
-                  className="animate-bounce delay-100 w-1.5 h-1.5 bg-slate-500 rounded-full"
+                  className="animate-bounce delay-100 w-1.5 h-1.5 bg-[#707070] rounded-full"
                 />
                 <div
                   key={"rond3"}
-                  className="animate-bounce delay-200 w-1.5 h-1.5 bg-slate-500 rounded-full"
+                  className="animate-bounce delay-200 w-1.5 h-1.5 bg-[#707070] rounded-full"
                 />
               </div>
             </div>
