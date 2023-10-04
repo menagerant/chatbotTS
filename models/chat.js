@@ -26,6 +26,10 @@ const ChatSchema = new Schema({
     type: Boolean,
     required: [true, "Conversion is required!"],
   },
+  source: {
+    type: String,
+    required: [true, "Source is required!"],
+  },
 });
 
 const Chat = models.Chat || model("Chat", ChatSchema);

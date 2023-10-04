@@ -3,7 +3,7 @@ import Chat from "@/models/chat";
 import database from "@/utils/database";
 
 export async function POST(req) {
-  const { chatId, messages } = await req.json();
+  const { chatId, messages, source } = await req.json();
   if (database.isConnected) {
     console.log("MongoDB connected");
     try {
@@ -15,6 +15,7 @@ export async function POST(req) {
         messages: JSON.stringify(messages),
         popupClics: 0,
         conversion: false,
+        source: source,
       });
       await userChat.save();
       console.log("created new user");

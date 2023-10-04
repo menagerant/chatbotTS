@@ -1,21 +1,8 @@
 "use client";
 
-import {
-  MessageSquarePlus,
-  MousePointer,
-  PictureInPicture2,
-  Users,
-} from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { Overview } from "./Overview";
-import { useEffect, useState } from "react";
+import ChatTelegram from "./ChatTelegram";
+import ChatTiktok from "./ChatTiktok";
 import Summary from "./Summary";
 
 export default function KPI() {
@@ -30,6 +17,12 @@ export default function KPI() {
         </TabsList>
         <TabsContent value="summary">
           <Summary />
+        </TabsContent>
+        <TabsContent value="tiktok">
+          <ChatTiktok />
+        </TabsContent>
+        <TabsContent value="telegram">
+          <ChatTelegram />
         </TabsContent>
       </Tabs>
     </div>

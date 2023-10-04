@@ -80,7 +80,11 @@ export default function Chat() {
     const response = await fetch("/api/chat/new", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chatId: chatId, messages: messages }),
+      body: JSON.stringify({
+        chatId: chatId,
+        messages: messages,
+        source: "telegram",
+      }),
     });
     const data = await response.json();
     console.log(data);
