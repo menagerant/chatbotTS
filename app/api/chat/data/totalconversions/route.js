@@ -7,10 +7,12 @@ export async function GET() {
     console.log("MongoDB connected");
     try {
       console.log("fetching all conversions...");
-      const conversionsToday = await Chat.find({ conversion: true }).count();
+      const conversionsToday = await Chat.findMany({
+        conversion: true,
+      }).count();
       const yesterday = new Date();
       yesterday.setHours(0, 0, 0);
-      const conversionsYesterday = await Chat.find({
+      const conversionsYesterday = await Chat.findMany({
         conversion: true,
         firstConnection: { $lt: yesterday },
       }).count();

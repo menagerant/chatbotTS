@@ -7,7 +7,7 @@ export async function GET() {
     console.log("MongoDB connected");
     try {
       console.log("fetching average popup clics...");
-      const popupClicsToday = await Chat.find({}, "popupClics");
+      const popupClicsToday = await Chat.findMany({}, "popupClics");
       let nbPopupClicsToday = [];
       for (const obj of popupClicsToday) {
         if (obj.popupClics) {
@@ -22,7 +22,7 @@ export async function GET() {
       //console.log("averageToday", averageToday);
       const yesterday = new Date();
       yesterday.setHours(0, 0, 0);
-      const popupClicsYesterday = await Chat.find(
+      const popupClicsYesterday = await Chat.findMany(
         {
           firstConnection: { $lt: yesterday },
         },
