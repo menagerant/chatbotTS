@@ -2,12 +2,13 @@ import { NextResponse } from "next/server";
 import Chat from "@/models/chat";
 import database from "@/utils/database";
 
-export async function GET() {
+export async function POST(req) {
+  const today = await req.json();
   if (database.isConnected) {
     console.log("MongoDB connected");
     try {
       console.log("fetching average messages...");
-      const messagesToday = await Chat.findMany({}, "messages");
+      const messagesToday = await Chat.find({}, "messages");
       let nbMessagesToday = [];
       for (const obj of messagesToday) {
         obj.messages
@@ -18,9 +19,9 @@ export async function GET() {
       const averageToday =
         nbMessagesToday.reduce((a, b) => a + b, 0) / nbMessagesToday.length;
       //console.log("averageToday", averageToday);
-      const yesterday = new Date();
+      const yesterday = new Date(today);
       yesterday.setHours(0, 0, 0);
-      const messagesYesterday = await Chat.findMany(
+      const messagesYesterday = await Chat.find(
         {
           firstConnection: { $lt: yesterday },
         },

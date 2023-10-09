@@ -10,12 +10,12 @@ import Image from "next/image";
 export default function ChatTiktok() {
   const [chats, setChats] = useState([
     {
-      id: "000000",
+      id: "Loading",
       firstConnection: "000000",
-      lastConnection: "000000",
-      messages: "0",
-      popupClics: "0",
-      conversion: "0",
+      lastConnection: "...",
+      messages: "",
+      popupClics: 0,
+      conversion: false,
     },
   ]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -105,15 +105,21 @@ export default function ChatTiktok() {
                 {chat?.id} | {String(chat.lastConnection)}
               </div>
               <div className="flex gap-1">
-                <div className="py-1 px-2 rounded-full bg-blue-500 text-white text-xs">
-                  Messages
-                </div>
-                <div className="py-1 px-2 rounded-full bg-yellow-500 text-white text-xs">
-                  Popup
-                </div>
-                <div className="py-1 px-2 rounded-full bg-green-500 text-white text-xs">
-                  Conversion
-                </div>
+                {chat.messages && (
+                  <div className="py-1 px-2 rounded-full bg-blue-500 text-white text-xs">
+                    {JSON.parse(chat.messages).length - 1} Messages
+                  </div>
+                )}
+                {chat.popupClics > 0 && (
+                  <div className="py-1 px-2 rounded-full bg-yellow-500 text-white text-xs">
+                    {chat.popupClics} Popup
+                  </div>
+                )}
+                {chat.conversion && (
+                  <div className="py-1 px-2 rounded-full bg-green-500 text-white text-xs">
+                    Conversion
+                  </div>
+                )}
               </div>
             </Card>
           ))}

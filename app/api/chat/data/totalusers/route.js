@@ -2,15 +2,16 @@ import { NextResponse } from "next/server";
 import Chat from "@/models/chat";
 import database from "@/utils/database";
 
-export async function GET() {
+export async function POST(req) {
+  const today = await req.json();
   if (database.isConnected) {
     console.log("MongoDB connected");
     try {
       console.log("fetching all users...");
-      const usersToday = await Chat.findMany({}).count();
-      const yesterday = new Date();
+      const usersToday = await Chat.find({}).count();
+      const yesterday = new Date(today);
       yesterday.setHours(0, 0, 0);
-      const usersYesterday = await Chat.findMany({
+      const usersYesterday = await Chat.find({
         firstConnection: { $lt: yesterday },
       }).count();
       console.log("fetched all users");

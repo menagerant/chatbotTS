@@ -36,24 +36,36 @@ export default function Summary() {
   useEffect(() => {
     const initializedData = async () => {
       // total users
-      const totalUsers = await fetch("/api/chat/data/totalusers");
+      const totalUsers = await fetch("/api/chat/data/totalusers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(new Date()),
+      });
       const totalUsersData = await totalUsers.json();
-      console.log(totalUsersData);
       setTotalUsers(totalUsersData);
       // total conversions
-      const totalConversions = await fetch("/api/chat/data/totalconversions");
+      const totalConversions = await fetch("/api/chat/data/totalconversions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(new Date()),
+      });
       const totalConversionsData = await totalConversions.json();
-      console.log(totalConversionsData);
       setTotalConversions(totalConversionsData);
       // average messages
-      const averageMessages = await fetch("/api/chat/data/averagemessages");
+      const averageMessages = await fetch("/api/chat/data/averagemessages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(new Date()),
+      });
       const averageMessagesData = await averageMessages.json();
-      console.log(averageMessagesData);
       setAverageMessages(averageMessagesData);
       // average popup clics
-      const averagePopupClics = await fetch("/api/chat/data/averagepopup");
+      const averagePopupClics = await fetch("/api/chat/data/averagepopup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(new Date()),
+      });
       const averagePopupClicsData = await averagePopupClics.json();
-      console.log(averagePopupClicsData);
       setAveragePopupClics(averagePopupClicsData);
     };
     initializedData();
