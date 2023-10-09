@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Image from "next/image";
 
-export default function ChatTiktok() {
+export default function ChatTelegram() {
   const [chats, setChats] = useState([
     {
       id: "000000",
@@ -36,7 +35,11 @@ export default function ChatTiktok() {
 
   useEffect(() => {
     const getChatsNumber = async () => {
-      const response = await fetch("/api/chat");
+      const response = await fetch("/api/chat/count", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify("telegram"),
+      });
       const data = await response.json();
       const total = data % 10 === 0 ? data / 10 : Math.floor(data / 10) + 1;
       setTotalPages(total);
@@ -112,7 +115,7 @@ export default function ChatTiktok() {
             </Card>
           ))}
       </div>
-      <Card className="md:col-span-4 min-h-[80vh] p-5 space-y-3 overflow-scroll bg-[url('/backgroundtelegram.jpg')] bg-cover">
+      <Card className="md:col-span-4 max-h-[80vh] p-5 space-y-3 overflow-scroll bg-[url('/backgroundtelegram.jpg')] bg-cover">
         {messages.map((message, index) =>
           message.role === "user" ? (
             // user message

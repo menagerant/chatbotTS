@@ -36,7 +36,11 @@ export default function ChatTiktok() {
 
   useEffect(() => {
     const getChatsNumber = async () => {
-      const response = await fetch("/api/chat");
+      const response = await fetch("/api/chat/count", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify("tiktok"),
+      });
       const data = await response.json();
       const total = data % 10 === 0 ? data / 10 : Math.floor(data / 10) + 1;
       setTotalPages(total);
@@ -112,7 +116,7 @@ export default function ChatTiktok() {
             </Card>
           ))}
       </div>
-      <Card className="md:col-span-4 bg-[#F8F8F8] min-h-[80vh] p-5 space-y-3 overflow-scroll">
+      <Card className="md:col-span-4 bg-[#F8F8F8] max-h-[80vh] p-5 space-y-3 overflow-scroll">
         {messages.map((message, index) =>
           message.role === "user" ? (
             // user message

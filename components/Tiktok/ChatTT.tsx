@@ -8,7 +8,8 @@ import { Button } from "../ui/button";
 import { ChatGPTMessage } from "@/lib/openai";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import Popup from "../Popup";
 
 export default function Chat() {
   // variables states
@@ -22,7 +23,6 @@ export default function Chat() {
 
   // variables const
   const limit_reponses = 10;
-  const ref_limit = useRef<HTMLButtonElement>(null); //ref={ref_limit}
   const ref_scroll = useRef<null | HTMLDivElement>(null);
   const timeByCaracter = 100;
 
@@ -303,40 +303,72 @@ export default function Chat() {
                     messages[index - 1].role === "user" && "rounded-t-2xl"
                   } rounded-sm rounded-r-2xl overflow-hidden`}
                 >
-                  <DialogTrigger
-                    onClick={() => {
-                      const chatId = localStorage.getItem(
-                        "dating_chatbot_chatId"
-                      );
-                      if (chatId) {
-                        updateChatPopupClics(chatId);
-                      }
-                    }}
-                  >
-                    <Image
-                      onClick={() => {
-                        ref_limit.current?.click();
-                        const chatId = localStorage.getItem(
-                          "dating_chatbot_chatId"
-                        );
-                        if (chatId) {
-                          updateChatPopupClics(chatId);
-                        }
-                      }}
-                      src={`/photo${
-                        messages
-                          .slice(0, index + 1)
-                          .filter(
-                            (item) =>
-                              item.role === "assistant" &&
-                              item.content.includes("Photo")
-                          ).length
-                      }.png`}
-                      alt={message.content}
-                      width={1080}
-                      height={1440}
-                    />
-                  </DialogTrigger>
+                  {messages.filter((m) => m.role === "assistant").length >
+                  limit_reponses ? (
+                    <Dialog>
+                      <DialogTrigger
+                        onClick={() => {
+                          const chatId = localStorage.getItem(
+                            "dating_chatbot_chatId"
+                          );
+                          if (chatId) {
+                            updateChatPopupClics(chatId);
+                          }
+                        }}
+                      >
+                        <Image
+                          src={`/photo${
+                            messages
+                              .slice(0, index + 1)
+                              .filter(
+                                (item) =>
+                                  item.role === "assistant" &&
+                                  item.content.includes("Photo")
+                              ).length
+                          }.png`}
+                          alt={message.content}
+                          width={2258}
+                          height={3575}
+                        />
+                      </DialogTrigger>
+                      <Popup text="revoir cette photo en grand" />
+                    </Dialog>
+                  ) : (
+                    <Dialog>
+                      <DialogTrigger>
+                        <Image
+                          src={`/photo${
+                            messages
+                              .slice(0, index + 1)
+                              .filter(
+                                (item) =>
+                                  item.role === "assistant" &&
+                                  item.content.includes("Photo")
+                              ).length
+                          }.png`}
+                          alt={message.content}
+                          width={2258}
+                          height={3575}
+                        />
+                      </DialogTrigger>
+                      <DialogContent className="p-0 text-white">
+                        <Image
+                          src={`/photo${
+                            messages
+                              .slice(0, index + 1)
+                              .filter(
+                                (item) =>
+                                  item.role === "assistant" &&
+                                  item.content.includes("Photo")
+                              ).length
+                          }.png`}
+                          alt={message.content}
+                          width={2258}
+                          height={3575}
+                        />
+                      </DialogContent>
+                    </Dialog>
+                  )}
                 </div>
               ) : message.content.includes("Audio") ? (
                 <div
@@ -363,19 +395,9 @@ export default function Chat() {
                     messages[index - 1].role === "user" && "rounded-t-2xl"
                   } rounded-sm rounded-r-2xl overflow-hidden`}
                 >
-                  <DialogTrigger
-                    onClick={() => {
-                      const chatId = localStorage.getItem(
-                        "dating_chatbot_chatId"
-                      );
-                      if (chatId) {
-                        updateChatPopupClics(chatId);
-                      }
-                    }}
-                  >
-                    <video
+                  <Dialog>
+                    <DialogTrigger
                       onClick={() => {
-                        ref_limit.current?.click();
                         const chatId = localStorage.getItem(
                           "dating_chatbot_chatId"
                         );
@@ -383,18 +405,22 @@ export default function Chat() {
                           updateChatPopupClics(chatId);
                         }
                       }}
-                      autoPlay
-                      src={`/video${
-                        messages
-                          .slice(0, index + 1)
-                          .filter(
-                            (item) =>
-                              item.role === "assistant" &&
-                              item.content.includes("Video")
-                          ).length
-                      }.mov`}
-                    />
-                  </DialogTrigger>
+                    >
+                      <video
+                        autoPlay
+                        src={`/video${
+                          messages
+                            .slice(0, index + 1)
+                            .filter(
+                              (item) =>
+                                item.role === "assistant" &&
+                                item.content.includes("Video")
+                            ).length
+                        }.mov`}
+                      />
+                    </DialogTrigger>
+                    <Popup text="revoir cette vidéo" />
+                  </Dialog>
                 </div>
               ) : (
                 <div
@@ -491,16 +517,18 @@ export default function Chat() {
         </Button>
         {messages.filter((m) => m.role === "assistant").length >
           limit_reponses && (
-          <div
-            className="absolute bottom-0 right-0 w-3/4 h-[65px]"
-            onClick={() => {
-              ref_limit.current?.click();
-              const chatId = localStorage.getItem("dating_chatbot_chatId");
-              if (chatId) {
-                updateChatPopupClics(chatId);
-              }
-            }}
-          ></div>
+          <Dialog>
+            <DialogTrigger
+              onClick={() => {
+                const chatId = localStorage.getItem("dating_chatbot_chatId");
+                if (chatId) {
+                  updateChatPopupClics(chatId);
+                }
+              }}
+              className="absolute bottom-0 right-0 w-3/4 h-[65px]"
+            />
+            <Popup text="continuer à discuter" />
+          </Dialog>
         )}
       </div>
     </>

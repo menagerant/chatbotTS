@@ -9,8 +9,8 @@ export async function GET() {
       console.log("fetching users chart...");
       let usersChart = [];
       for (let i = 0; i < 7; i++) {
-        let day1 = new Date();
-        let day2 = new Date();
+        const day1 = new Date();
+        const day2 = new Date();
         if (i !== 0) {
           day1.setHours(0, 0, 0);
           day1.setDate(day1.getDate() - i + 1);

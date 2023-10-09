@@ -1,17 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import {
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "./ui/dialog";
+import { DialogContent, DialogFooter } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { ShieldCheck } from "lucide-react";
 
-export default function Popup() {
+interface PopupParams {
+  text: string;
+}
+
+export default function Popup({ text }: PopupParams) {
   //update user conversion
   const updateChatConversion = async (chatId: string) => {
     const response = await fetch("/api/chat/update/conversion", {
@@ -43,7 +41,7 @@ export default function Popup() {
         />
       </div>
       <p className="text-lg font-semibold mb-3">
-        Vous devez certifier votre compte pour continuer la discussion
+        Vous devez certifier votre compte pour {text}
       </p>
       <div>
         <h2 className="text-2xl font-semibold text-[#E95576]">
