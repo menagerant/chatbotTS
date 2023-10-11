@@ -11,7 +11,7 @@ export default function Dashboard() {
   const [allow, setAllow] = useState<Boolean>(false);
   return (
     <div className="w-full h-screen">
-      {allow || true ? (
+      {allow ? (
         <KPI />
       ) : (
         <div className="w-full h-full flex items-center justify-center bg-primary-foreground">
@@ -33,7 +33,7 @@ export default function Dashboard() {
               <Button
                 className="w-full"
                 onClick={() => {
-                  setAllow(password === "datingchatbot");
+                  setAllow(password === "tonyb");
                   setPassword("");
                 }}
               >
