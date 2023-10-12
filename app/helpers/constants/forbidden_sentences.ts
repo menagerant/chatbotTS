@@ -39,4 +39,5 @@ trop loin
 commandes
 Commandes
 satisfaire tous tes désirs
-incapable`;
+incapable
+boîte de réception`;
