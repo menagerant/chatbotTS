@@ -469,7 +469,7 @@ export default function Chat() {
 
       {/*Chat input section*/}
 
-      <div className="fixed bottom-0 w-full px-5 py-3 flex items-end gap-3 bg-[#F8F8F8]">
+      <div className="fixed bottom-0 w-full px-5 pt-3 pb-10 flex items-end gap-3 bg-[#F8F8F8]">
         {/*<Button
           className="text-xs bg-red-500 hover:bg-red-600"
           onClick={() => {
@@ -516,20 +516,21 @@ export default function Chat() {
           <Image src="/send.png" width={30} height={30} alt="send" />
         </Button>
         {messages.filter((m) => m.role === "assistant").length >
-          limit_reponses && (
-          <Dialog>
-            <DialogTrigger
-              onClick={() => {
-                const chatId = localStorage.getItem("dating_chatbot_chatId");
-                if (chatId) {
-                  updateChatPopupClics(chatId);
-                }
-              }}
-              className="absolute bottom-0 right-0 w-full h-[65px]"
-            />
-            <Popup text="continuer à discuter" />
-          </Dialog>
-        )}
+          limit_reponses ||
+          (true && (
+            <Dialog>
+              <DialogTrigger
+                onClick={() => {
+                  const chatId = localStorage.getItem("dating_chatbot_chatId");
+                  if (chatId) {
+                    updateChatPopupClics(chatId);
+                  }
+                }}
+                className="absolute bottom-0 right-0 w-full h-[85px]"
+              />
+              <Popup text="continuer à discuter" />
+            </Dialog>
+          ))}
       </div>
     </>
   );
