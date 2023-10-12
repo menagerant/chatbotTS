@@ -12,7 +12,7 @@ export async function POST(req) {
       let nbMessagesToday = [];
       for (const obj of messagesToday) {
         obj.messages
-          ? nbMessagesToday.push(JSON.parse(obj.messages).length)
+          ? nbMessagesToday.push(JSON.parse(obj.messages).length - 1)
           : nbMessagesToday.push(0);
       }
       //console.log("nbMessagesToday", nbMessagesToday);
@@ -30,7 +30,7 @@ export async function POST(req) {
       let nbMessagesYesterday = [];
       for (const obj of messagesYesterday) {
         obj.messages
-          ? nbMessagesYesterday.push(JSON.parse(obj.messages).length)
+          ? nbMessagesYesterday.push(JSON.parse(obj.messages).length - 1)
           : nbMessagesYesterday.push(0);
       }
       //console.log("nbMessagesYesterday", nbMessagesYesterday);
