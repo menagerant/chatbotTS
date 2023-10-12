@@ -2,6 +2,7 @@ export const forbiddenSentences = `je ne suis pas en mesure
 je ne peux pas
 un instant
 [IA]
+IA
 je vais t'envoyer
 cette demande
 n'hésite pas à me le demander
