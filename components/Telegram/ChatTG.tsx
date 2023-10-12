@@ -459,7 +459,7 @@ export default function Chat() {
       {/*Chat input section*/}
 
       <div className="fixed bottom-0 w-full px-5 py-3 flex items-end gap-3 bg-white bg-opacity-60 backdrop-blur-md">
-        <Button
+        {/*<Button
           className="text-xs bg-red-500 hover:bg-red-600"
           onClick={() => {
             console.log("local storage cleared");
@@ -470,7 +470,7 @@ export default function Chat() {
           }}
         >
           Reset Chat
-        </Button>
+        </Button>*/}
 
         <Dialog>
           <DialogTrigger
@@ -529,7 +529,7 @@ export default function Chat() {
                   updateChatPopupClics(chatId);
                 }
               }}
-              className="absolute bottom-0 right-0 w-3/4 h-[65px]"
+              className="absolute bottom-0 right-0 w-full h-[65px]"
             />
             <Popup text="continuer à discuter" />
           </Dialog>
