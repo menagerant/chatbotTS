@@ -516,21 +516,20 @@ export default function Chat() {
           <Image src="/send.png" width={30} height={30} alt="send" />
         </Button>
         {messages.filter((m) => m.role === "assistant").length >
-          limit_reponses ||
-          (true && (
-            <Dialog>
-              <DialogTrigger
-                onClick={() => {
-                  const chatId = localStorage.getItem("dating_chatbot_chatId");
-                  if (chatId) {
-                    updateChatPopupClics(chatId);
-                  }
-                }}
-                className="absolute bottom-0 right-0 w-full h-[85px]"
-              />
-              <Popup text="continuer à discuter" />
-            </Dialog>
-          ))}
+          limit_reponses && (
+          <Dialog>
+            <DialogTrigger
+              onClick={() => {
+                const chatId = localStorage.getItem("dating_chatbot_chatId");
+                if (chatId) {
+                  updateChatPopupClics(chatId);
+                }
+              }}
+              className="absolute bottom-0 right-0 w-full h-[85px]"
+            />
+            <Popup text="continuer à discuter" />
+          </Dialog>
+        )}
       </div>
     </>
   );
