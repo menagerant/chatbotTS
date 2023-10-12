@@ -42,7 +42,9 @@ export default function Summary() {
         body: JSON.stringify(new Date()),
       });
       const totalUsersData = await totalUsers.json();
-      setTotalUsers(totalUsersData);
+      if (totalUsersData) {
+        setTotalUsers(totalUsersData);
+      }
       // total conversions
       const totalConversions = await fetch("/api/chat/data/totalconversions", {
         method: "POST",
@@ -50,7 +52,9 @@ export default function Summary() {
         body: JSON.stringify(new Date()),
       });
       const totalConversionsData = await totalConversions.json();
-      setTotalConversions(totalConversionsData);
+      if (totalConversionsData) {
+        setTotalConversions(totalConversionsData);
+      }
       // average messages
       const averageMessages = await fetch("/api/chat/data/averagemessages", {
         method: "POST",
@@ -58,7 +62,9 @@ export default function Summary() {
         body: JSON.stringify(new Date()),
       });
       const averageMessagesData = await averageMessages.json();
-      setAverageMessages(averageMessagesData);
+      if (averageMessagesData) {
+        setAverageMessages(averageMessagesData);
+      }
       // average popup clics
       const averagePopupClics = await fetch("/api/chat/data/averagepopup", {
         method: "POST",
@@ -66,7 +72,9 @@ export default function Summary() {
         body: JSON.stringify(new Date()),
       });
       const averagePopupClicsData = await averagePopupClics.json();
-      setAveragePopupClics(averagePopupClicsData);
+      if (averagePopupClicsData) {
+        setAveragePopupClics(averagePopupClicsData);
+      }
     };
     initializedData();
   }, []);
