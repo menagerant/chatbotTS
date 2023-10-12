@@ -33,4 +33,6 @@ mon cher
 Désolée
 Manon
 manon
-en panne`;
+en panne
+explicite
+trop loin`;
