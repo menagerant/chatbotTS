@@ -139,7 +139,7 @@ export default function Summary() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {averageMessages.today.toFixed(2)}
+              {averageMessages.today?.toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground">
               {((averageMessages.today - averageMessages.yesterday) * 100) /
@@ -172,7 +172,7 @@ export default function Summary() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {averagePopupClics.today.toFixed(2)}
+              {averagePopupClics.today?.toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground">
               {((averagePopupClics.today - averagePopupClics.yesterday) * 100) /
