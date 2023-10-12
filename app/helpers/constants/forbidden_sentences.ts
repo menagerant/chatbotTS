@@ -30,4 +30,6 @@ jouer le rôle
 voici
 Voici
 mon cher
-désolée`;
+désolée
+Désolée
+Manon`;
