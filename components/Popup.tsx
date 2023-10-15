@@ -45,7 +45,7 @@ export default function Popup({ text }: PopupParams) {
       </p>
       <div>
         <h2 className="text-2xl font-semibold text-[#E95576]">
-          devenez premium
+          devenez premium sur EchangeNude
         </h2>
         <p className="text-sm">
           pour chatter avec Manon et tous les autres membres certifiés
