@@ -4,10 +4,10 @@ import { forbiddenSentences } from "../../app/helpers/constants/forbidden_senten
 import { systemPrompt } from "../../app/helpers/constants/system_prompt";
 import TextareaAutosize from "react-textarea-autosize";
 import { useEffect, useRef, useState } from "react";
+import { ArrowUp, Paperclip } from "lucide-react";
 import { Button } from "../ui/button";
 import { ChatGPTMessage } from "@/lib/openai";
 import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import Popup from "../Popup";
 
@@ -24,7 +24,7 @@ export default function Chat() {
   // variables const
   const limit_reponses = 10;
   const ref_scroll = useRef<null | HTMLDivElement>(null);
-  const timeByCaracter = 100;
+  const timeByCaracter = 150;
 
   // get chat history function
   const historyChat = async (chatId: string) => {
@@ -83,7 +83,7 @@ export default function Chat() {
       body: JSON.stringify({
         chatId: chatId,
         messages: messages,
-        source: "tiktok",
+        source: "echangenude",
       }),
     });
     const data = await response.json();
@@ -212,8 +212,8 @@ export default function Chat() {
         text = text.replace(":", "");
         text = text.replace("(", "");
         text = text.replace(")", "");
-        text = text.replace(",", "");
         text = text.replace("*", "");
+        text = text.replace(",", "");
         text = text.replace(". ", "=");
         text = text.replace('"', "");
         text = text.replace("Maison", userCity);
@@ -280,29 +280,18 @@ export default function Chat() {
                   (messages[index - 1].role === "assistant" ||
                     messages[index - 1].role === "system") &&
                   "rounded-t-2xl"
-                } rounded-sm rounded-l-2xl bg-[#00B5D4] text-white px-3 py-2`}
+                } rounded-sm rounded-l-2xl bg-[#E2FDC5] px-3 py-2`}
               >
                 {message.content}
               </div>
             </div>
           ) : message.role === "assistant" ? (
             // assistant message
-            <div
-              key={index}
-              className="flex w-full justify-start items-end gap-1"
-            >
-              {!messages[index + 1] || messages[index + 1].role === "user" ? (
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src="/manon.png" alt="Manon" />
-                  <AvatarFallback>M</AvatarFallback>
-                </Avatar>
-              ) : (
-                <div className="w-8" />
-              )}
+            <div key={index} className="flex w-full justify-start items-end">
               {message.content.includes("Photo") ? (
                 <div
-                  className={`w-fit max-w-[60%] ${
-                    messages[index - 1].role === "user" && "rounded-t-2xl"
+                  className={`w-[60%] ${
+                    messages[index - 1].role === "user" ? "rounded-t-2xl" : ""
                   } rounded-sm rounded-r-2xl overflow-hidden`}
                 >
                   {messages.filter((m) => m.role === "assistant").length >
@@ -442,7 +431,7 @@ export default function Chat() {
           (audioRecording ? (
             // audio recording anmation
             <div className="flex w-full justify-start">
-              <div className="w-fit max-w-[60%] bg-white px-3 py-3 rounded-2xl text-[#707070]">
+              <div className="w-fit max-w-[60%] bg-white px-3 py-3 rounded-2xl text-[#797B76]">
                 Enregistrement d'un audio...
               </div>
             </div>
@@ -452,15 +441,15 @@ export default function Chat() {
               <div className="w-fit max-w-[60%] bg-white px-3 py-3 rounded-2xl flex items-end gap-1 h-[40px]">
                 <div
                   key={"rond1"}
-                  className="animate-bounce w-1.5 h-1.5 bg-[#707070] rounded-full"
+                  className="animate-bounce w-1.5 h-1.5 bg-[#797B76] rounded-full"
                 />
                 <div
                   key={"rond2"}
-                  className="animate-bounce delay-100 w-1.5 h-1.5 bg-[#707070] rounded-full"
+                  className="animate-bounce delay-100 w-1.5 h-1.5 bg-[#797B76] rounded-full"
                 />
                 <div
                   key={"rond3"}
-                  className="animate-bounce delay-200 w-1.5 h-1.5 bg-[#707070] rounded-full"
+                  className="animate-bounce delay-200 w-1.5 h-1.5 bg-[#797B76] rounded-full"
                 />
               </div>
             </div>
@@ -471,7 +460,7 @@ export default function Chat() {
 
       {/*Chat input section*/}
 
-      <div className="fixed bottom-0 w-full px-5 pt-3 pb-10 flex items-end gap-3 bg-[#F8F8F8]">
+      <div className="fixed bottom-0 w-full px-5 py-3 flex items-end gap-3 bg-white bg-opacity-60 backdrop-blur-md">
         {/*<Button
           className="text-xs bg-red-500 hover:bg-red-600"
           onClick={() => {
@@ -484,6 +473,21 @@ export default function Chat() {
         >
           Reset Chat
         </Button>*/}
+
+        <Dialog>
+          <DialogTrigger
+            className="p-1 rounded-full hover:opacity-90"
+            onClick={() => {
+              const chatId = localStorage.getItem("dating_chatbot_chatId");
+              if (chatId) {
+                updateChatPopupClics(chatId);
+              }
+            }}
+          >
+            <Paperclip size={30} color="#797B76" />
+          </DialogTrigger>
+          <Popup text="envoyer une photo" />
+        </Dialog>
 
         <TextareaAutosize
           rows={1}
@@ -504,8 +508,8 @@ export default function Chat() {
             messages.filter((m) => m.role === "assistant").length >
               limit_reponses
           }
-          placeholder="Envoyer un message..."
-          className="rounded-t-2xl rounded-l-2xl  disabled:opacity-50 resize-none w-full border-0 bg-white focus:ring-0"
+          placeholder="Message"
+          className="rounded-2xl disabled:opacity-50 resize-none w-full border-0 bg-white focus:ring-0"
         />
 
         <Button
@@ -513,9 +517,9 @@ export default function Chat() {
             submit(input);
           }}
           disabled={isLoading || input === ""}
-          className="bg-[#FD2C54] py-2 px-2 rounded-full hover:bg-[#FD2C54] hover:opacity-90 disabled:bg-[#DDDDDF]"
+          className="bg-[#037AFF] py-2 px-[5px] rounded-full hover:bg-[#037AFF] hover:opacity-90 disabled:bg-[#797B76]"
         >
-          <Image src="/send.png" width={30} height={30} alt="send" />
+          <ArrowUp size={30} />
         </Button>
         {messages.filter((m) => m.role === "assistant").length >
           limit_reponses && (
@@ -527,7 +531,7 @@ export default function Chat() {
                   updateChatPopupClics(chatId);
                 }
               }}
-              className="absolute bottom-0 right-0 w-full h-[85px]"
+              className="absolute bottom-0 right-0 w-full h-[65px]"
             />
             <Popup text="continuer à discuter" />
           </Dialog>

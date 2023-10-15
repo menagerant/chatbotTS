@@ -34,15 +34,15 @@ export default function Chat() {
       body: JSON.stringify(chatId),
     });
     const data = await response.json();
-    console.log(data);
+    //console.log(data);
     if (data?.messages) {
       const msg = JSON.parse(data.messages);
       setMessages(msg);
     } else {
-      console.log("local storage cleared");
+      //console.log("local storage cleared");
       localStorage.clear();
       setMessages([{ role: "system", content: systemPrompt }]);
-      console.log("create new user");
+      //console.log("create new user");
       createNewChat();
     }
   };
@@ -58,7 +58,7 @@ export default function Chat() {
       }),
     });
     const data = await response.json();
-    console.log(data);
+    //console.log(data);
   };
 
   //update user popup clics
@@ -69,13 +69,13 @@ export default function Chat() {
       body: JSON.stringify(chatId),
     });
     const data = await response.json();
-    console.log(data);
+    //console.log(data);
   };
 
   // create new user function
   const createNewChat = async () => {
     const chatId = Math.floor(Math.random() * Date.now()).toString(36);
-    console.log(chatId);
+    //console.log(chatId);
     localStorage.setItem("dating_chatbot_chatId", chatId);
     const response = await fetch("/api/chat/new", {
       method: "POST",
@@ -87,20 +87,20 @@ export default function Chat() {
       }),
     });
     const data = await response.json();
-    console.log(data);
+    //console.log(data);
   };
 
   // create or get chat memory
   useEffect(() => {
     const chatId = localStorage.getItem("dating_chatbot_chatId");
-    console.log(chatId);
+    //console.log(chatId);
     if (chatId) {
       //get user history
-      console.log("get history chat");
+      //console.log("get history chat");
       historyChat(chatId);
     } else {
       //create user
-      console.log("create new user");
+      //console.log("create new user");
       createNewChat();
     }
   }, []);
@@ -110,10 +110,10 @@ export default function Chat() {
     if (messages.length > 1) {
       const chatId = localStorage.getItem("dating_chatbot_chatId");
       if (chatId) {
-        console.log("update chat");
+        //console.log("update chat");
         updateChatMessages(chatId);
       } else {
-        console.log("chat memory lost");
+        //console.log("chat memory lost");
       }
     }
   }, [messages.length]);
@@ -121,17 +121,17 @@ export default function Chat() {
   // wait until user stop typing
   useEffect(() => {
     if (isLoading) {
-      console.log("wait next round");
+      //console.log("wait next round");
     } else {
       const timer = setTimeout(() => {
-        console.log("stop tying");
+        //console.log("stop tying");
         if (messages[messages.length - 1].role === "user") {
           setIsLoading(true);
-          console.log("messages", messages);
-          console.log("call api");
+          //console.log("messages", messages);
+          //console.log("call api");
           callGPTApi();
         }
-      }, 5000 + 5000 * Math.random());
+      }, 5000 + 3000 * Math.random());
       return () => clearTimeout(timer);
     }
   }, [input]);
@@ -145,9 +145,11 @@ export default function Chat() {
           "https://api.geoapify.com/v1/ipinfo?apiKey=0913a545ed2843e2ba722a620df262c7"
         );
         const data = await response.json();
-        setUserCity(data.city.name);
+        if (data.country.name === "France") {
+          setUserCity(data.city.name);
+        }
       } catch (error) {
-        console.log("error", error);
+        //console.log("error", error);
       }
     };
     getLocation();
@@ -177,7 +179,7 @@ export default function Chat() {
   async function callGPTApi() {
     setIsLoading(true);
 
-    console.log("messages", messages);
+    //console.log("messages", messages);
 
     const response = await fetch("/api/openai", {
       method: "POST",
@@ -185,24 +187,24 @@ export default function Chat() {
       body: JSON.stringify(messages),
     });
     const data = await response.json();
-    console.log(data);
+    //console.log(data);
 
     if (data === "error") {
       callGPTApi();
     } else {
       let text = data.choices[0].message.content;
-      console.log("original response", text);
+      //console.log("original response", text);
 
       let reFetch = false;
       for (const line of forbiddenSentences.split(/[\n]/)) {
         if (text.includes(line)) {
-          console.log("phrase  interdite : ", line);
+          //console.log("phrase  interdite : ", line);
           reFetch = true;
         }
       }
 
       if (reFetch) {
-        console.log("reFetch : ", reFetch);
+        //console.log("reFetch : ", reFetch);
         callGPTApi();
       } else {
         text = text.replace("[", "");
@@ -221,12 +223,12 @@ export default function Chat() {
         text = text.replace("IMAGE", "<<Photo>>");
         text = text.replace("Audio", "<<Audio>>");
 
-        console.log("replace response", text);
+        //console.log("replace response", text);
 
         let multipleText =
           text.split(/[<<>>=;]/).length > 0 ? text.split(/[<<>>=;]/) : [text];
         multipleText = multipleText.filter((item: string) => item !== "");
-        console.log("split text", multipleText);
+        //console.log("split text", multipleText);
 
         let waitingTime = 0;
         for (let [i, subText] of multipleText.entries()) {
@@ -239,13 +241,13 @@ export default function Chat() {
             waitingTime = waitingTime + subText.length * timeByCaracter;
           }
 
-          console.log(waitingTime, subText.length * timeByCaracter);
+          //console.log(waitingTime, subText.length * timeByCaracter);
 
           const message: ChatGPTMessage = {
             role: "assistant",
             content: subText,
           };
-          console.log(message);
+          //console.log(message);
 
           setTimeout(() => {
             setMessages((prev) => [...prev, message]);
@@ -462,10 +464,10 @@ export default function Chat() {
         {/*<Button
           className="text-xs bg-red-500 hover:bg-red-600"
           onClick={() => {
-            console.log("local storage cleared");
+            //console.log("local storage cleared");
             localStorage.clear();
             setMessages([{ role: "system", content: systemPrompt }]);
-            console.log("create new user");
+            //console.log("create new user");
             createNewChat();
           }}
         >

@@ -1,6 +1,7 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import ChatEchangeNude from "./ChatEchangeNude";
 import ChatTelegram from "./ChatTelegram";
 import ChatTiktok from "./ChatTiktok";
 import Summary from "./Summary";
@@ -12,8 +13,9 @@ export default function KPI() {
       <Tabs defaultValue="summary" className="w-full space-y-4">
         <TabsList>
           <TabsTrigger value="summary">Summary</TabsTrigger>
-          <TabsTrigger value="tiktok">Chat Tiktok</TabsTrigger>
-          <TabsTrigger value="telegram">Chat Telegram</TabsTrigger>
+          <TabsTrigger value="tiktok">Tiktok</TabsTrigger>
+          <TabsTrigger value="telegram">Telegram</TabsTrigger>
+          <TabsTrigger value="echangenude">Echange Nude</TabsTrigger>
         </TabsList>
         <TabsContent value="summary">
           <Summary />
@@ -23,6 +25,9 @@ export default function KPI() {
         </TabsContent>
         <TabsContent value="telegram">
           <ChatTelegram />
+        </TabsContent>
+        <TabsContent value="echangenude">
+          <ChatEchangeNude />
         </TabsContent>
       </Tabs>
     </div>

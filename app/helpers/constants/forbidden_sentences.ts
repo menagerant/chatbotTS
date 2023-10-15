@@ -1,5 +1,5 @@
-export const forbiddenSentences = `je ne suis pas en mesure
-je ne peux pas
+export const forbiddenSentences = `Je ne suis pas en mesure
+je ne suis pas en mesure
 un instant
 [IA]
 IA
@@ -36,8 +36,20 @@ manon
 en panne
 explicite
 trop loin
+commande
+Commande
 commandes
 Commandes
 satisfaire tous tes désirs
 incapable
-boîte de réception`;
+boîte de réception
+Envoi de
+envoi de
+Je ne suis pas en mesure
+je ne suis pas en mesure
+Je ne peux pas
+je ne peux pas
+ChatGPT
+Chatgpt
+chatgpt
+chat gpt`;

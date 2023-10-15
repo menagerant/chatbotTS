@@ -131,7 +131,7 @@ export default function Chat() {
           console.log("call api");
           callGPTApi();
         }
-      }, 5000 + 5000 * Math.random());
+      }, 5000 + 3000 * Math.random());
       return () => clearTimeout(timer);
     }
   }, [input]);
@@ -145,7 +145,9 @@ export default function Chat() {
           "https://api.geoapify.com/v1/ipinfo?apiKey=0913a545ed2843e2ba722a620df262c7"
         );
         const data = await response.json();
-        setUserCity(data.city.name);
+        if (data.country.name === "France") {
+          setUserCity(data.city.name);
+        }
       } catch (error) {
         console.log("error", error);
       }
@@ -463,7 +465,7 @@ export default function Chat() {
               </div>
             </div>
           ))}
-        <div className="min-h-[4rem]" />
+        <div className="min-h-[6rem]" />
         <div ref={ref_scroll} />
       </div>
 
