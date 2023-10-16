@@ -52,4 +52,5 @@ je ne peux pas
 ChatGPT
 Chatgpt
 chatgpt
-chat gpt`;
+chat gpt
+envoyée`;
